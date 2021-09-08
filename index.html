@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script>
+
+        function getTopStudents(students, attendees, num) {
+            const stdObj = students.reduce((acc, curr) => (acc[curr] = 0, acc), {}); //creating the students score object
+
+            attendees.forEach(function (atn) {// sum the attendant to a student
+                Object.keys(stdObj).map(function (key, index) {
+                    if (atn.includes(key)) {
+                        stdObj[key]++;
+                    }
+                });
+            });
+            const topStnt = Object.fromEntries( //sortting DESC
+                Object.entries(stdObj).sort(([, a], [, b]) => b - a)
+            );
+
+            var topStudents = [];
+
+            for (var x = 0; x < num; x++) { //creating the return array
+                topStudents.push(Object.keys(topStnt)[x] + ': ' + topStnt[Object.keys(topStnt)[x]] + ' lectures');
+            }
+
+            return topStudents;
+        }
+
+
+    </script>
+</head>
+
+<body>
+    <p id="topList"></p>
+    <script>
+        var _students = ['Eden', 'Refael', 'Hadas', 'Nitzan', 'Yoni', 'Nitzan', 'Hadas'];
+        var _attendees = [['Eden', 'Refael', 'Yoni', 'Nitzan', 'Hadas', 'Ortal'],
+        ['Berry', 'Nitzan', 'Yoni', 'Eden', 'Hadas', 'Ortal'],
+        ['Maxim', 'Ortal', 'Yoni', 'Refael', 'Nitzan', 'Alex'],
+        ['Eden', 'Andrew', 'Yoni', 'Nitzan', 'Ortal', 'Nitzan']];
+        var N = 3;
+        document.getElementById('topList').innerText = getTopStudents(_students, _attendees, N);
+    </script>
+</body>
+
+</html>
